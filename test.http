@@ -1,0 +1,37 @@
+
+GET http://localhost:8080/create HTTP/1.1
+
+###
+
+POST http://localhost:8080/assignDeck/0 HTTP/1.1
+content-type: application/json
+
+{ "deck":[
+    {"value": -6, "type": "side"},
+    {"value": -5, "type": "side"},
+    {"value": -4, "type": "side"},
+    {"value": -3, "type": "side"},
+    {"value": -2, "type": "side"},
+    {"value": -1, "type": "side"},
+    {"value": 6, "type": "side"},
+    {"value": 5, "type": "side"},
+    {"value": 4, "type": "side"},
+    {"value": 3, "type": "side"}
+  ]
+}
+
+###
+
+GET http://localhost:8080/drawFromDeck/0 HTTP/1.1
+
+###
+
+GET http://localhost:8080/addCardToBoard/0 HTTP/1.1
+
+###
+
+GET http://localhost:8080/playCard/0/0 HTTP/1.1
+
+###
+
+GET http://localhost:8080/endTurn/0 HTTP/1.1
