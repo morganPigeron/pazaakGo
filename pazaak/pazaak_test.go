@@ -7,84 +7,38 @@ import (
 )
 
 func TestCreateNewGame(t *testing.T) {
-	CreateNewGame(&GameObject)
-	assert.Equal(t, len(GameObject[0].BoardCards), 0)
-	assert.Equal(t, len(GameObject[1].BoardCards), 0)
-
+	game := NewGame()
+	assert.NotNil(t, game)
 }
 
-func TestDeckAssignation(t *testing.T) {
-	newDeck := []Card{
-		sideCards[0],
-		sideCards[1],
-		sideCards[2],
-		sideCards[3],
-		sideCards[4],
-		sideCards[5],
-		sideCards[6],
-		sideCards[7],
-		sideCards[8],
-		sideCards[9],
-	}
-
-	AssignDeck(&Players[0], newDeck)
-
-	assert.Equal(t, newDeck, Players[0].Deck)
+func TestAddPlayer(t *testing.T) {
+	game := getGameWithOnePlayer()
+	assert.Equal(t, len(game.players), 1)
 }
 
-func TestHandCardDefinition(t *testing.T) {
-	newDeck := []Card{
-		sideCards[0],
-		sideCards[1],
-		sideCards[2],
-		sideCards[3],
-		sideCards[4],
-		sideCards[5],
-		sideCards[6],
-		sideCards[7],
-		sideCards[8],
-		sideCards[9],
-	}
-	Players[0].Deck = newDeck
-
-	DrawRandomCardsfromDeck(&Players[0])
-
-	assert.Equal(t, len(Players[0].Cards), 4)
+func TestDefineFirstPlayer(t *testing.T) {
+	game := getGameWithTwoPlayers()
+	assert.True(t, game.firstPlayerIndex >= 0 && game.firstPlayerIndex < len(game.players))
 }
 
-func TestTurnAddCard(t *testing.T) {
-	AddCardToBoard(&GameObject[0])
-	assert.Equal(t, len(GameObject[0].BoardCards), 1)
+func TestFromInitialStateToPlayingState(t *testing.T) {
+	game := getGameWithTwoPlayers()
+	game.start()
+	assert.Equal(t, game.state, "playing")
 }
 
-func TestPlayerAddCard(t *testing.T) {
-	hand := []Card{
-		sideCards[0],
-		sideCards[1],
-		sideCards[2],
-		sideCards[3],
-	}
+// Test Helpers
 
-	want := []Card{
-		sideCards[0],
-		sideCards[2],
-		sideCards[3],
-	}
-
-	Players[0].Cards = hand
-	GameObject[0].BoardCards = []Card{}
-	PlayerAddCard(&GameObject[0], &Players[0], 1)
-	assert.Equal(t, Players[0].Cards, want)
-	assert.Equal(t, GameObject[0].BoardCards, []Card{sideCards[1]})
+func getGameWithTwoPlayers() *pazaakGame {
+	game := NewGame()
+	game.addPlayer()
+	game.addPlayer()
+	game.defineFirstPlayer()
+	return game
 }
 
-func TestEndTurn(t *testing.T) {
-	GameObject[0].BoardCards = []Card{
-		mainCards[0],
-		mainCards[0],
-		mainCards[4],
-	}
-
-	EndTurn(&GameObject[0], &Players[0])
-	assert.Equal(t, Players[0].Point, int8(7))
+func getGameWithOnePlayer() *pazaakGame {
+	game := NewGame()
+	game.addPlayer()
+	return game
 }
