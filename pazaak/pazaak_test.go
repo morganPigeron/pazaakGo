@@ -18,7 +18,7 @@ func TestAddPlayer(t *testing.T) {
 
 func TestDefineFirstPlayer(t *testing.T) {
 	game := getGameWithTwoPlayers()
-	assert.True(t, game.firstPlayerIndex >= 0 && game.firstPlayerIndex < len(game.players))
+	assert.True(t, game.currentPlayerTurn >= 0 && game.currentPlayerTurn < len(game.players))
 }
 
 func TestFromInitialStateToPlayingState(t *testing.T) {

@@ -3,9 +3,9 @@ package pazaak
 import "math/rand"
 
 type pazaakGame struct {
-	players          []*player
-	firstPlayerIndex int
-	state            string
+	players           []*player
+	currentPlayerTurn int
+	state             string
 }
 
 func (game *pazaakGame) addPlayer() {
@@ -14,7 +14,7 @@ func (game *pazaakGame) addPlayer() {
 }
 
 func (game *pazaakGame) defineFirstPlayer() {
-	game.firstPlayerIndex = rand.Intn(len(game.players))
+	game.currentPlayerTurn = rand.Intn(len(game.players))
 }
 
 func (game *pazaakGame) start() {
